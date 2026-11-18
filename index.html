@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Pixel-Quest">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#eef1f6">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Pixel-Quest</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="top">
+  <strong class="brand">Pixel-Quest</strong>
+  <span id="avail" class="badge"></span>
+  <span class="sp"></span>
+  <button id="syncBtn" class="ghost">Synchronisieren</button>
+  <button id="impBtn" class="ghost">Importieren</button>
+  <input type="file" id="impFile" accept="application/json,.json" hidden>
+  <button id="wTodo" class="ghost">To-Do-Widget</button>
+  <button id="wImg" class="ghost">Bild-Widget</button>
+</header>
+<nav id="tabs">
+  <button data-tab="todo">Aufgaben</button>
+  <button data-tab="image">Bild</button>
+  <button data-tab="settings">Einstellungen</button>
+</nav>
+
+<section id="todo" class="panel">
+  <form id="addForm">
+    <input id="newText" placeholder="Neue Aufgabe eintragen" autocomplete="off">
+    <select id="newGrade"></select>
+    <button class="primary">Hinzufügen</button>
+  </form>
+  <ul id="list"></ul>
+  <p id="emptyTodo" class="hint">Noch keine Aufgaben. Trag oben die erste ein.</p>
+</section>
+
+<section id="image" class="panel">
+  <div id="imgBar">
+    <span id="prog"></span>
+    <span class="sp"></span>
+    <button id="newImg" class="ghost">Neues Bild</button>
+  </div>
+  <div id="stage">
+    <canvas id="cv"></canvas>
+    <div id="empty" class="hint">
+      <p>Noch kein Bild geladen.</p>
+      <button id="firstImg" class="primary">Bild auswählen</button>
+    </div>
+  </div>
+  <div id="zoomBar">
+    <button id="zOut" aria-label="Verkleinern">−</button>
+    <button id="zReset" title="Zoom zurücksetzen">100 %</button>
+    <button id="zIn" aria-label="Vergrößern">+</button>
+  </div>
+</section>
+
+<section id="settings" class="panel">
+  <h2>Grade und Felder</h2>
+  <p class="hint">Lege fest, wie viele Felder ein Grad wert ist. Änderungen gelten für Aufgaben, die du ab jetzt abhakst.</p>
+  <div id="gradeRows"></div>
+  <div class="row">
+    <button id="addGrade" class="ghost">Grad hinzufügen</button>
+    <button id="delGrade" class="ghost">Letzten Grad entfernen</button>
+  </div>
+  <h2>Noch nicht ausgemalte Felder</h2>
+  <div class="row">
+    <select id="style">
+      <option value="grid">Hellgrau</option>
+      <option value="gray">Schwarz-Weiß-Version des Bildes</option>
+      <option value="faded">Blasse Vorschau</option>
+      <option value="dark">Dunkel</option>
+    </select>
+    <label class="check"><input type="checkbox" id="showGrid"> Gitterlinien zeigen</label>
+  </div>
+  <div class="desktop-only">
+  <h2>Widget-Fenster</h2>
+  <label class="check"><input type="checkbox" id="onTop"> Immer im Vordergrund halten</label>
+  </div>
+</section>
+
+<dialog id="dlg">
+  <h2>Bild in Pixel umwandeln</h2>
+  <input type="file" id="file" accept="image/*">
+  <div class="row">
+    <span class="hint">grob</span>
+    <input type="range" id="cols" min="0" max="100" value="45" aria-label="Feinheit">
+    <span class="hint">fein</span>
+  </div>
+  <p id="dims" class="hint"></p>
+  <canvas id="pv"></canvas>
+  <div class="row end">
+    <button id="cancel" class="ghost">Abbrechen</button>
+    <button id="ok" class="primary" disabled>Übernehmen</button>
+  </div>
+</dialog>
+<div id="toast"></div>
+<script src="web-api.js"></script>
+<script src="sync.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

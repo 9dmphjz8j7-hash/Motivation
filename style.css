@@ -1,0 +1,77 @@
+:root{
+  --bg:#eef1f6; --card:#fff; --ink:#1b2233; --mute:#6b7388; --line:#d9deea;
+  --accent:#2f54eb; --accent-ink:#fff; --done:#9aa3b8;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#141824; --card:#1d2233; --ink:#e8ecf7; --mute:#95a0ba; --line:#2d344a; --accent:#6f8cff; --accent-ink:#0f1320; --done:#66708a; }
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font:14px/1.45 ui-rounded,"SF Pro Rounded",-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column}
+#top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px 4px;-webkit-app-region:drag}
+#top button{-webkit-app-region:no-drag}
+.brand{font-size:18px;letter-spacing:.2px}
+.sp{flex:1}
+.badge{background:var(--accent);color:var(--accent-ink);padding:2px 10px;border-radius:99px;font-weight:600}
+.badge.zero{background:var(--line);color:var(--mute)}
+#tabs{display:flex;gap:4px;padding:8px 16px 0}
+#tabs button{background:none;border:0;border-bottom:2px solid transparent;border-radius:0;padding:6px 10px;color:var(--mute)}
+#tabs button.on{color:var(--ink);border-color:var(--accent);font-weight:600}
+.panel{display:none;flex:1;min-height:0;padding:14px 16px 16px;overflow:auto;flex-direction:column}
+.panel.on{display:flex}
+button,select,input[type=text],input:not([type]),input[type=number]{font:inherit;color:var(--ink)}
+button{border:1px solid var(--line);background:var(--card);padding:6px 12px;border-radius:8px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+button.ghost{background:transparent}
+button:disabled{opacity:.45;cursor:default}
+input:not([type]),input[type=number],select{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+#addForm{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+#newText{flex:1 1 160px;min-width:0}
+#list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+#list li{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+#list li.done .t{text-decoration:line-through;color:var(--done)}
+#list .t{flex:1;word-break:break-word}
+#list input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
+.grade{font-size:12px;color:var(--mute);white-space:nowrap}
+.x{border:0;background:none;color:var(--mute);padding:2px 6px}
+.hint{color:var(--mute)}
+#imgBar{display:flex;align-items:center;margin-bottom:10px}
+#prog{color:var(--mute)}
+#image{position:relative}
+#stage{flex:1;min-height:0;display:flex;overflow:auto}
+#cv{display:none;flex:none;margin:auto;cursor:crosshair;border-radius:4px;box-shadow:0 0 0 1px var(--line);touch-action:none}
+#empty{margin:auto;text-align:center}
+#zoomBar{position:absolute;right:22px;bottom:22px;display:none;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+#zoomBar button{padding:2px 10px;min-width:34px;border-color:transparent}
+#toast{position:fixed;z-index:50;max-width:90vw;text-align:center;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:6px 14px;border-radius:99px;opacity:0;transition:opacity .2s;pointer-events:none}
+#toast.show{opacity:1}
+h2{font-size:15px;margin:18px 0 6px}
+h2:first-child{margin-top:0}
+.row{display:flex;align-items:center;gap:10px;margin:8px 0}
+.row.end{justify-content:flex-end}
+.check{display:flex;gap:6px;align-items:center}
+#gradeRows .row input{width:70px}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);width:min(520px,92vw);padding:18px}
+dialog::backdrop{background:rgba(10,14,25,.45)}
+#pv{max-width:100%;image-rendering:pixelated;display:block;margin:6px auto;border:1px solid var(--line)}
+#cols{flex:1}
+/* Widget-Ansichten */
+body[data-view=todo] #syncBtn,body[data-view=todo] #impBtn,body[data-view=todo] #tabs,body[data-view=image] #tabs,
+body[data-view=todo] #wTodo,body[data-view=todo] #wImg,
+body[data-view=image] #wTodo,body[data-view=image] #wImg,
+body[data-view=image] #top .brand,body[data-view=todo] #top .brand{display:none}
+body[data-view=image] #top{display:none}
+body[data-view=todo] #top{padding-bottom:0}
+body[data-view=todo] #todo,body[data-view=image] #image{display:flex}
+body[data-view=image] .panel{padding:8px}
+body[data-view=image] #imgBar{display:none}
+
+#cv{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:pan-x pan-y}
+.web #wTodo,.web #wImg,.web .desktop-only{display:none}
+@media (max-width:700px){
+  input,select{font-size:16px}
+  #list input[type=checkbox]{width:22px;height:22px}
+  .panel{padding:12px}
+}
