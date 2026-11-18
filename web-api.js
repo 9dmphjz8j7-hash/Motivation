@@ -1,7 +1,7 @@
 /* Ersatz für die Mac-Schnittstelle: speichert im Handy (localStorage), teilt per Teilen-Menü (AirDrop). */
 (() => {
   const KEY = 'pixelquest-v1';
-  const DEF = { tasks: [], deleted: [], bank: 0, settings: { grades: [1, 2, 3, 5, 8], unpaintedStyle: 'grid', showGrid: true }, project: null };
+  const DEF = { tasks: [], deleted: [], gallery: [], bank: 0, settings: { grades: [1, 2, 3, 5, 8], unpaintedStyle: 'grid', showGrid: true }, project: null };
   let st;
   try {
     const d = JSON.parse(localStorage.getItem(KEY));
@@ -22,5 +22,9 @@
       a.href = URL.createObjectURL(file); a.download = file.name; a.click();
     }
   };
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  if ('serviceWorker' in navigator) {
+    let had = !!navigator.serviceWorker.controller, reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (had && !reloaded) { reloaded = true; location.reload(); } had = true; });
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
 })();

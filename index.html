@@ -27,15 +27,70 @@
 <nav id="tabs">
   <button data-tab="todo">Aufgaben</button>
   <button data-tab="image">Bild</button>
+  <button data-tab="gallery">Galerie</button>
   <button data-tab="settings">Einstellungen</button>
 </nav>
 
 <section id="todo" class="panel">
+  <div id="dueBanner" class="banner"></div>
   <form id="addForm">
-    <input id="newText" placeholder="Neue Aufgabe eintragen" autocomplete="off">
-    <select id="newGrade"></select>
-    <button class="primary">Hinzufügen</button>
+    <div class="line">
+      <input id="newText" placeholder="Neue Aufgabe eintragen" autocomplete="off">
+      <button id="saveBtn" class="primary">Hinzufügen</button>
+      <button id="cancelEdit" type="button" class="ghost" hidden>Abbrechen</button>
+    </div>
+    <div class="line">
+      <label>Grad <select id="newGrade"></select></label>
+      <label>Dringlichkeit
+        <select id="newUrg">
+          <option value="0">Keine</option>
+          <option value="1">🟢 Niedrig</option>
+          <option value="2">🟡 Mittel</option>
+          <option value="3">🔴 Hoch</option>
+        </select>
+      </label>
+    </div>
+    <details id="more">
+      <summary>Deadline und Erinnerung</summary>
+      <div class="line">
+        <label>Tag <input type="date" id="newDate"></label>
+        <label>Uhrzeit <input type="time" id="newTime"></label>
+        <button type="button" id="clearDl" class="ghost">Zurücksetzen</button>
+      </div>
+      <div class="line">
+        <label>Erinnerung
+          <select id="remPreset">
+            <option value="">Hinzufügen …</option>
+            <option value="0">Zur Deadline</option>
+            <option value="10">10 Min. vorher</option>
+            <option value="30">30 Min. vorher</option>
+            <option value="60">1 Std. vorher</option>
+            <option value="120">2 Std. vorher</option>
+            <option value="1440">1 Tag vorher</option>
+            <option value="2880">2 Tage vorher</option>
+          </select>
+        </label>
+        <span class="hint">oder eigene:</span>
+        <input type="number" id="remNum" min="1" max="999" placeholder="Zahl" class="num">
+        <select id="remUnit"><option value="1">Min.</option><option value="60">Std.</option><option value="1440">Tage</option></select>
+        <button type="button" id="remAdd" class="ghost">+</button>
+      </div>
+      <div id="remChips" class="chips"></div>
+      <p class="hint small">Erinnerungen kommen als Mitteilung auf dem Mac, solange die App läuft (Fenster schließen reicht, nicht beenden). Auf dem iPhone siehst du fällige Aufgaben beim Öffnen der App.</p>
+    </details>
   </form>
+  <div id="sortBar" class="line">
+    <label>Sortieren
+      <select id="sortKey">
+        <option value="created">Eingabe</option>
+        <option value="grade">Grad</option>
+        <option value="urg">Dringlichkeit</option>
+        <option value="deadline">Deadline</option>
+      </select>
+    </label>
+    <button type="button" id="sortDir" class="ghost"></button>
+    <label class="check"><input type="checkbox" id="showDone"> Erledigte zeigen</label>
+  </div>
   <ul id="list"></ul>
   <p id="emptyTodo" class="hint">Noch keine Aufgaben. Trag oben die erste ein.</p>
 </section>
@@ -54,10 +109,16 @@
     </div>
   </div>
   <div id="zoomBar">
+    <button id="brush" aria-label="Malmodus" aria-pressed="false" title="Malmodus">🖌️</button>
     <button id="zOut" aria-label="Verkleinern">−</button>
     <button id="zReset" title="Zoom zurücksetzen">100 %</button>
     <button id="zIn" aria-label="Vergrößern">+</button>
   </div>
+</section>
+
+<section id="gallery" class="panel">
+  <p id="emptyGal" class="hint">Hier erscheinen deine fertigen Bilder. Sobald ein Bild komplett ausgemalt ist, wird es automatisch gespeichert.</p>
+  <div id="galGrid"></div>
 </section>
 
 <section id="settings" class="panel">
@@ -81,6 +142,8 @@
   <div class="desktop-only">
   <h2>Widget-Fenster</h2>
   <label class="check"><input type="checkbox" id="onTop"> Immer im Vordergrund halten</label>
+  <h2>Erinnerungen</h2>
+  <div class="row"><label class="check"><input type="checkbox" id="notify"> Mitteilungen für Deadlines senden</label><button id="notifyTest" class="ghost">Testmitteilung</button></div>
   </div>
 </section>
 
@@ -99,9 +162,17 @@
     <button id="ok" class="primary" disabled>Übernehmen</button>
   </div>
 </dialog>
+<dialog id="galDlg">
+  <canvas id="galBig"></canvas>
+  <div class="row end">
+    <button id="galDel" class="ghost">Löschen</button>
+    <button id="galSave" class="ghost">Als Bild speichern</button>
+    <button id="galClose" class="primary">Schließen</button>
+  </div>
+</dialog>
 <div id="toast"></div>
-<script src="web-api.js"></script>
 <script src="sync.js"></script>
+<script src="web-api.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
